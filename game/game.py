@@ -3,11 +3,11 @@ from game.board import Board
 class TicTacToe:
     """The game of Tic-Tac-Toe."""
     
-    def __init__(self, board_size=3):
+    def __init__(self, board_size=50):
         """Initialize the game.
         
         Args:
-            board_size (int): Size of the board (default is 3x3)
+            board_size (int): Size of the board (default is 50x50)
         """
         self.board = Board(board_size)
         self.current_player = 'X'  # X goes first

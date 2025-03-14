@@ -13,9 +13,12 @@ class GameRenderer:
         self.width, self.height = screen.get_size()
         
         # Board dimensions and position
-        self.board_size = 300
-        self.cell_size = self.board_size // 3
-        self.board_pos = ((self.width - self.board_size) // 2, 50)
+        self.board_size = 500  # Larger display area for the 50x50 board
+        self.cell_size = 10    # Smaller cells to fit the 50x50 grid
+        self.board_pos = (50, 50)  # Position board closer to the left edge
+        self.visible_cells = 50    # Number of cells to show in the viewport
+        self.scroll_x = 0
+        self.scroll_y = 0      # Track scroll position for large board
         
         # Colors
         self.bg_color = (240, 240, 240)
@@ -52,7 +55,7 @@ class GameRenderer:
         pygame.display.flip()
     
     def _draw_board(self):
-        """Draw the tic-tac-toe grid."""
+        """Draw the tic-tac-toe grid for a 50x50 board."""
         # Draw board background
         board_rect = pygame.Rect(
             self.board_pos[0], self.board_pos[1], 
@@ -60,14 +63,14 @@ class GameRenderer:
         )
         pygame.draw.rect(self.screen, (255, 255, 255), board_rect)
         
-        # Draw grid lines
-        for i in range(1, 3):
+        # Draw grid lines (draw thinner lines for the 50x50 grid)
+        for i in range(1, self.visible_cells):
             # Vertical lines
             pygame.draw.line(
                 self.screen, self.line_color,
                 (self.board_pos[0] + i * self.cell_size, self.board_pos[1]),
                 (self.board_pos[0] + i * self.cell_size, self.board_pos[1] + self.board_size),
-                3
+                1
             )
             
             # Horizontal lines
@@ -75,7 +78,7 @@ class GameRenderer:
                 self.screen, self.line_color,
                 (self.board_pos[0], self.board_pos[1] + i * self.cell_size),
                 (self.board_pos[0] + self.board_size, self.board_pos[1] + i * self.cell_size),
-                3
+                1
             )
     
     def _draw_symbols(self, game):
@@ -84,17 +87,19 @@ class GameRenderer:
         Args:
             game (TicTacToe): The game instance
         """
-        for row in range(3):
-            for col in range(3):
+        for row in range(50):
+            for col in range(50):
                 cell_value = game.board.grid[row][col]
                 if cell_value != ' ':
                     center_x = self.board_pos[0] + col * self.cell_size + self.cell_size // 2
                     center_y = self.board_pos[1] + row * self.cell_size + self.cell_size // 2
                     
-                    if cell_value == 'X':
-                        self._draw_x(center_x, center_y)
-                    else:  # 'O'
-                        self._draw_o(center_x, center_y)
+                    if center_x >= self.board_pos[0] and center_x < self.board_pos[0] + self.board_size and \
+                       center_y >= self.board_pos[1] and center_y < self.board_pos[1] + self.board_size:
+                        if cell_value == 'X':
+                            self._draw_x(center_x, center_y)
+                        else:  # 'O'
+                            self._draw_o(center_x, center_y)
     
     def _draw_x(self, center_x, center_y):
         """Draw an X symbol.
@@ -108,13 +113,13 @@ class GameRenderer:
             self.screen, self.x_color,
             (center_x - size, center_y - size),
             (center_x + size, center_y + size),
-            8
+            2  # Thinner line for smaller cells
         )
         pygame.draw.line(
             self.screen, self.x_color,
             (center_x + size, center_y - size),
             (center_x - size, center_y + size),
-            8
+            2  # Thinner line for smaller cells
         )
     
     def _draw_o(self, center_x, center_y):
@@ -129,7 +134,7 @@ class GameRenderer:
             self.screen, self.o_color,
             (center_x, center_y),
             size,
-            width=8
+            width=2  # Thinner circle for smaller cells
         )
     
     def _draw_status(self, game):

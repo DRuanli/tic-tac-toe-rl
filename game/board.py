@@ -1,11 +1,11 @@
 class Board:
     """Represents a tic-tac-toe board."""
     
-    def __init__(self, size=3):
+    def __init__(self, size=50):
         """Initialize an empty board.
         
         Args:
-            size (int): Size of the board (default is 3x3)
+            size (int): Size of the board (default is 50x50)
         """
         self.size = size
         self.reset()
@@ -44,28 +44,40 @@ class Board:
         return valid_moves
     
     def check_winner(self):
-        """Check if there is a winner.
+        """Check if there is a winner (5 in a row).
         
         Returns:
             str: 'X' or 'O' if there's a winner, ' ' if no winner yet
         """
+        consecutive_to_win = 5
+        
         # Check rows
         for row in range(self.size):
-            if self.grid[row][0] != ' ' and all(self.grid[row][0] == self.grid[row][c] for c in range(self.size)):
-                return self.grid[row][0]
+            for col in range(self.size - consecutive_to_win + 1):
+                if self.grid[row][col] != ' ':
+                    if all(self.grid[row][col] == self.grid[row][col+i] for i in range(consecutive_to_win)):
+                        return self.grid[row][col]
         
         # Check columns
         for col in range(self.size):
-            if self.grid[0][col] != ' ' and all(self.grid[r][col] == self.grid[0][col] for r in range(self.size)):
-                return self.grid[0][col]
+            for row in range(self.size - consecutive_to_win + 1):
+                if self.grid[row][col] != ' ':
+                    if all(self.grid[row+i][col] == self.grid[row][col] for i in range(consecutive_to_win)):
+                        return self.grid[row][col]
         
-        # Check main diagonal
-        if self.grid[0][0] != ' ' and all(self.grid[i][i] == self.grid[0][0] for i in range(self.size)):
-            return self.grid[0][0]
+        # Check diagonals (top-left to bottom-right)
+        for row in range(self.size - consecutive_to_win + 1):
+            for col in range(self.size - consecutive_to_win + 1):
+                if self.grid[row][col] != ' ':
+                    if all(self.grid[row+i][col+i] == self.grid[row][col] for i in range(consecutive_to_win)):
+                        return self.grid[row][col]
         
-        # Check other diagonal
-        if self.grid[0][self.size-1] != ' ' and all(self.grid[i][self.size-1-i] == self.grid[0][self.size-1] for i in range(self.size)):
-            return self.grid[0][self.size-1]
+        # Check diagonals (top-right to bottom-left)
+        for row in range(self.size - consecutive_to_win + 1):
+            for col in range(consecutive_to_win - 1, self.size):
+                if self.grid[row][col] != ' ':
+                    if all(self.grid[row+i][col-i] == self.grid[row][col] for i in range(consecutive_to_win)):
+                        return self.grid[row][col]
         
         return ' '
     

@@ -27,8 +27,8 @@ def main():
     # Initialize pygame
     if not args.headless:
         pygame.init()
-        screen = pygame.display.set_mode((800, 600))
-        pygame.display.set_caption("Tic-Tac-Toe RL")
+        screen = pygame.display.set_mode((1000, 700))  # Larger window for 50x50 board
+        pygame.display.set_caption("Gomoku RL (50x50 with 5-in-a-row)")
         game_renderer = GameRenderer(screen)
         stats_display = StatsDisplay(screen)
     else:

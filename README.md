@@ -1,10 +1,10 @@
-# Tic-Tac-Toe with Reinforcement Learning
+# Gomoku (50×50) with Reinforcement Learning
 
-This project implements a Tic-Tac-Toe game where two AI agents learn to play through reinforcement learning (specifically Q-learning).
+This project implements a 50×50 Gomoku game (5-in-a-row) where two AI agents learn to play through reinforcement learning (specifically Q-learning).
 
 ## Features
 
-- Standard 3×3 Tic-Tac-Toe game implementation
+- 50×50 board with 5-in-a-row win condition
 - Q-learning agents that improve over time
 - Self-play training with configurable parameters
 - Pygame visualization of gameplay and learning statistics
