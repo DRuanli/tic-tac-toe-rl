@@ -10,7 +10,7 @@ from ui.stats_display import StatsDisplay
 def main():
     # Parse command line arguments
     parser = argparse.ArgumentParser(description='Tic-Tac-Toe Reinforcement Learning')
-    parser.add_argument('--episodes', type=int, default=10000, help='Number of training episodes')
+    parser.add_argument('--episodes', type=int, default=100, help='Number of training episodes')
     parser.add_argument('--display_interval', type=int, default=100, help='Display game every N episodes')
     parser.add_argument('--learning_rate', type=float, default=0.1, help='Learning rate for Q-learning')
     parser.add_argument('--discount_factor', type=float, default=0.9, help='Discount factor for Q-learning')
