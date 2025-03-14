@@ -18,6 +18,8 @@ def main():
     parser.add_argument('--epsilon_end', type=float, default=0.1, help='Ending exploration rate')
     parser.add_argument('--epsilon_decay', type=float, default=0.9995, help='Exploration rate decay')
     parser.add_argument('--headless', action='store_true', help='Run without visualization')
+    parser.add_argument('--demo_delay', type=int, default=100, 
+                    help='Delay between moves in demo game (ms)')
     args = parser.parse_args()
     
     # Create data directories if they don't exist
